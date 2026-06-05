@@ -9,18 +9,17 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
-# ------------------------------------------------
+
 # Page Configuration
-# ------------------------------------------------
+
 st.set_page_config(
     page_title="Preeclampsia Risk Prediction",
     page_icon="🩺",
     layout="wide"
 )
 
-# ------------------------------------------------
 # Custom CSS
-# ------------------------------------------------
+
 st.markdown("""
 <style>
 .big-font {font-size:20px; font-weight:600;}
@@ -36,9 +35,9 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ------------------------------------------------
+
 # Sidebar
-# ------------------------------------------------
+
 st.sidebar.title("🩺 Clinical Dashboard")
 page = st.sidebar.radio(
     "Navigation",
@@ -46,9 +45,9 @@ page = st.sidebar.radio(
 )
 st.sidebar.info("AI Decision Support System\n(Not Medical Advice)")
 
-# ------------------------------------------------
+
 # Load Data
-# ------------------------------------------------
+
 @st.cache_data
 def load_data():
     return pd.read_csv("preeclampsia_data.csv")
@@ -58,9 +57,9 @@ X = data.drop("RiskLevel", axis=1)
 y = data["RiskLevel"]
 
 
-# ------------------------------------------------
+
 # Train Models
-# ------------------------------------------------
+
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
 )
@@ -78,9 +77,9 @@ models = {
 for model in models.values():
     model.fit(X_train, y_train)
 
-# ------------------------------------------------
+
 # Overview
-# ------------------------------------------------
+
 if page == "🏠 Overview":
     st.title("Preeclampsia Risk Prediction System")
     st.write("### AI-Powered Temporal Clinical Decision Support")
@@ -99,9 +98,8 @@ if page == "🏠 Overview":
     </div>
     """, unsafe_allow_html=True)
 
-# ------------------------------------------------
 # Model Performance
-# ------------------------------------------------
+
 elif page == "📊 Model Performance":
     st.title("Model Accuracy")
 
@@ -110,9 +108,8 @@ elif page == "📊 Model Performance":
         acc = accuracy_score(y_test, model.predict(X_test))
         col.metric(name, f"{acc:.2f}")
 
-# ------------------------------------------------
 # Feature Importance
-# ------------------------------------------------
+
 elif page == "🧬 Feature Importance":
     st.title("Key Clinical Risk Factors")
 
@@ -129,9 +126,9 @@ elif page == "🧬 Feature Importance":
     ax.invert_yaxis()
     st.pyplot(fig)
 
-# ------------------------------------------------
+
 # Temporal Risk Prediction
-# ------------------------------------------------
+
 elif page == "📈 Temporal Risk Prediction":
     st.title("Temporal AI – Trend-Based Risk Assessment")
 
@@ -177,8 +174,7 @@ elif page == "📈 Temporal Risk Prediction":
         else:
             st.success("✅ Stable clinical trend")
 
-# ------------------------------------------------
 # Footer
-# ------------------------------------------------
+
 st.markdown("---")
 st.caption("© 2026 Temporal AI Preeclampsia Prediction System | Academic Project")
